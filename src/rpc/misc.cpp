@@ -100,14 +100,9 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.push_back(Pair("blocks",        (int)chainActive.Height()));
     obj.push_back(Pair("timeoffset",    GetTimeOffset()));
     if(g_connman)
-        obj.push_back(Pair("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL)));
+    obj.push_back(Pair("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL)));
     obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string())));
-
-    UniValue difficulty(UniValue::VOBJ);
-    difficulty.push_back(Pair("proof-of-work",  (double)GetDifficulty()));
-    difficulty.push_back(Pair("proof-of-stake", (double)GetDifficulty(GetLastBlockIndex(chainActive.Tip(), Params().GetConsensus(), true), false)));
-
-    obj.push_back(Pair("difficulty",            difficulty));
+    obj.push_back(Pair("difficulty",    (double)GetDifficulty()));
     obj.push_back(Pair("testnet",       Params().NetworkIDString() == CBaseChainParams::TESTNET));
 #ifdef ENABLE_WALLET
     if (pwallet) {
