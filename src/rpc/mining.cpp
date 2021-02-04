@@ -220,19 +220,13 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     LOCK(cs_main);
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("blocks",           (int)chainActive.Height()));
+    obj.push_back(Pair("blocks",             (int)chainActive.Height()));
     obj.push_back(Pair("currentblockweight", (uint64_t)nLastBlockWeight));
-    obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
-
-    UniValue difficulty(UniValue::VOBJ);
-    difficulty.push_back(Pair("proof-of-work",        (double)GetDifficulty()));
-    difficulty.push_back(Pair("proof-of-stake",       (double)GetDifficulty(GetLastBlockIndex(chainActive.Tip(), Params().GetConsensus(), true), false)));
-    difficulty.push_back(Pair("search-interval",      (int)nLastCoinStakeSearchInterval));
-
-    obj.push_back(Pair("difficulty",       difficulty));
-    obj.push_back(Pair("networkhashps",    getnetworkhashps(request)));
-    obj.push_back(Pair("pooledtx",         (uint64_t)mempool.size()));
-    obj.push_back(Pair("chain",            Params().NetworkIDString()));
+    obj.push_back(Pair("currentblocktx",     (uint64_t)nLastBlockTx));
+    obj.push_back(Pair("difficulty",         (double)GetDifficulty()));
+    obj.push_back(Pair("networkhashps",      getnetworkhashps(request)));
+    obj.push_back(Pair("pooledtx",           (uint64_t)mempool.size()));
+    obj.push_back(Pair("chain",              Params().NetworkIDString()));
     if (IsDeprecatedRPCEnabled("getmininginfo")) {
         obj.push_back(Pair("errors",       GetWarnings("statusbar")));
     } else {
